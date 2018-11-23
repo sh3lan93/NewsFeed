@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">News Feed</string>
+    <string name="explore">Explore</string>
+    <string name="live_chat">Live chat</string>
+    <string name="gallery">Gallery</string>
+    <string name="wishlist">Wishlist</string>
+    <string name="e_magzine">E-Magazine</string>
+    <string name="welcome">Welcome</string>
+    <string name="userName">Tony Roshdy</string>
+    <string name="explore_id">1</string>
+    <string name="live_chat_id">2</string>
+    <string name="gallery_id">3</string>
+    <string name="wishlist_id">4</string>
+    <string name="e_magzine_id">5</string>
+
+    <string-array name="nav_titls">
+        <item>@string/explore</item>
+        <item>@string/live_chat</item>
+        <item>@string/gallery</item>
+        <item>@string/wishlist</item>
+        <item>@string/e_magzine</item>
+    </string-array>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>

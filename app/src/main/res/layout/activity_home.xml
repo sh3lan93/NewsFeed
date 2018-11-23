@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.DrawerLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/appDrawer"
+    android:fitsSystemWindows="true">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/container"/>
+
+    <!--<android.support.design.widget.NavigationView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:id="@+id/appNav"-->
+        <!--android:layout_gravity="start"-->
+        <!--app:menu="@menu/app_nav_items"-->
+        <!--app:headerLayout="@layout/app_nav_view_header_layout"-->
+        <!--android:fitsSystemWindows="true" />/-->
+    <fragment
+        android:id="@+id/customNav"
+        android:layout_width="@dimen/nav_size"
+        android:layout_height="match_parent"
+        android:name="com.shalan.newsfeed.home.app_nav.AppNavigationFragment"
+        tools:layout="@layout/fragment_app_navigation"
+        android:layout_gravity="start"
+        android:fitsSystemWindows="true"/>
+
+
+</android.support.v4.widget.DrawerLayout>

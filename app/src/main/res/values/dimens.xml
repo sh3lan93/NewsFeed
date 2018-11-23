@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <dimen name="selected_icon_right">150dp</dimen>
+    <dimen name="original_icon_left">60dp</dimen>
+    <dimen name="header_max_height">200dp</dimen>
+    <dimen name="profile_pic_margin">32dp</dimen>
+    <dimen name="marg_8">8dp</dimen>
+    <dimen name="profile_pic_size">40dp</dimen>
+    <dimen name="marg_16">16dp</dimen>
+    <dimen name="arrow_size">15dp</dimen>
+    <dimen name="nav_size">256dp</dimen>
+    <dimen name="nav_item_height">64dp</dimen>
+    <dimen name="marg_32">32dp</dimen>
+    <dimen name="padding_10">10dp</dimen>
+    <dimen name="header_size">192dp</dimen>
+    <dimen name="header_margin_top">32dp</dimen>
+    <dimen name="nav_item_size">30dp</dimen>
+    <dimen name="nav_start_marg">50dp</dimen>
+    <dimen name="selector_width">5dp</dimen>
+</resources>
