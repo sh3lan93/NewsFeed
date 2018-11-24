@@ -29,11 +29,11 @@ public abstract class BaseFragment extends Fragment implements PublishConnectivi
 
     @Override
     public void onNoConnectionAvailable() {
-
+        noConnectionAvailable();
     }
 
     @Override
     public void onConnectionAvailable() {
-
+        connectionAvailable();
     }
 }

@@ -4,25 +4,26 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.shalan.newsfeed.NewsFeedApplication;
 import com.shalan.newsfeed.R;
+import com.shalan.newsfeed.adapters.ArticlesAdapter;
+import com.shalan.newsfeed.adapters.callbacks.NewsDiffCallbacks;
 import com.shalan.newsfeed.base.BaseFragment;
 import com.shalan.newsfeed.data.AppDataManager;
 import com.shalan.newsfeed.data.api_models.news.Article;
 import com.shalan.newsfeed.home.HomeActivity;
+import com.shalan.newsfeed.utils.Utils;
 
 import java.util.List;
 
@@ -30,12 +31,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-public class NewsFragment extends BaseFragment implements NewsViewInteractor{
+public class NewsFragment extends BaseFragment implements NewsViewInteractor, ArticlesAdapter.ArticlesListener {
 
     public static final String TAG = NewsFragment.class.getSimpleName();
-
-    private OnFragmentInteractionListener mListener;
-
     @BindView(R.id.app_def_toolbar)
     Toolbar appToolbar;
     @BindView(R.id.newsRecycler)
@@ -44,9 +42,11 @@ public class NewsFragment extends BaseFragment implements NewsViewInteractor{
     TextView cautionMessage;
     @BindView(R.id.loader)
     ProgressBar loader;
-
+    private OnFragmentInteractionListener mListener;
     private NewsPresenter<NewsViewInteractor> presenter;
     private List<Article> articlesList;
+    private NewsDiffCallbacks callbacks;
+    private ArticlesAdapter adapter;
 
     public NewsFragment() {
         // Required empty public constructor
@@ -78,21 +78,34 @@ public class NewsFragment extends BaseFragment implements NewsViewInteractor{
         super.onActivityCreated(savedInstanceState);
         initPresenter();
         setupToolbar();
+        setupNewsRecycler();
+        if (Utils.checkConnectivity(getContext()))
+            presenter.getNewsData();
+        else
+            showCautionMessage(getString(R.string.no_connection_available_message));
     }
 
-    private void showCautionMessage(String message){
+    private void setupNewsRecycler() {
+        this.newsRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
+        this.callbacks = new NewsDiffCallbacks();
+        this.adapter = new ArticlesAdapter(callbacks, this);
+        this.newsRecycler.setAdapter(adapter);
+    }
+
+    private void showCautionMessage(String message) {
         this.loader.setVisibility(View.GONE);
         this.cautionMessage.setVisibility(View.VISIBLE);
         this.cautionMessage.setText(message);
     }
 
-    private void hideCautionMessage(){
+    private void hideCautionMessage() {
         this.loader.setVisibility(View.VISIBLE);
         this.cautionMessage.setVisibility(View.GONE);
     }
+
     private void setupToolbar() {
-        ((HomeActivity)getContext()).setSupportActionBar(appToolbar);
-        ActionBar mActionBar = ((HomeActivity)getContext()).getSupportActionBar();
+        ((HomeActivity) getContext()).setSupportActionBar(appToolbar);
+        ActionBar mActionBar = ((HomeActivity) getContext()).getSupportActionBar();
         mActionBar.setDisplayHomeAsUpEnabled(true);
         mActionBar.setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
     }
@@ -116,19 +129,27 @@ public class NewsFragment extends BaseFragment implements NewsViewInteractor{
 
     @Override
     protected void initPresenter() {
-        AppDataManager dataManager = ((NewsFeedApplication)getContext()).getDataManager();
+        AppDataManager dataManager = ((NewsFeedApplication) getContext().getApplicationContext()).getDataManager();
         presenter = new NewsPresenter<NewsViewInteractor>(dataManager, this);
     }
 
     @Override
     protected void noConnectionAvailable() {
-        showCautionMessage(getString(R.string.no_connection_available_message));
+        if (this.articlesList != null && !this.articlesList.isEmpty()) {
+            Toast.makeText(getContext(), getString(R.string.we_still_serve_you), Toast.LENGTH_LONG).show();
+        } else {
+            showCautionMessage(getString(R.string.no_connection_available_message));
+        }
     }
 
     @Override
     protected void connectionAvailable() {
-        hideCautionMessage();
-        presenter.getNewsData();
+        if (this.articlesList != null && !this.articlesList.isEmpty())
+            presenter.getNewsData();
+        else {
+            hideCautionMessage();
+            presenter.getNewsData();
+        }
     }
 
     @Override
@@ -140,11 +161,17 @@ public class NewsFragment extends BaseFragment implements NewsViewInteractor{
     public void getNewsSuccess(List<Article> articleList) {
         this.loader.setVisibility(View.GONE);
         this.articlesList = articleList;
+        this.adapter.submitList(articleList);
     }
 
     @Override
     public void getNewsIsEmpty() {
         showCautionMessage(getString(R.string.no_data_available));
+    }
+
+    @Override
+    public void onArticleClicked(int position) {
+
     }
 
     public interface OnFragmentInteractionListener {
