@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import com.bumptech.glide.Glide;
 import com.shalan.newsfeed.R;
 import com.shalan.newsfeed.data.api_models.news.Article;
+import com.shalan.newsfeed.utils.Utils;
 import com.shalan.newsfeed.view_holders.ArticlesViewHolder;
 
 public class ArticlesAdapter extends ListAdapter<Article, ArticlesViewHolder> {
@@ -36,7 +37,7 @@ public class ArticlesAdapter extends ListAdapter<Article, ArticlesViewHolder> {
         articlesViewHolder.articleTitle.setText(model.getTitle());
         articlesViewHolder.articleAuthor
                 .setText(articlesViewHolder.itemView.getContext().getString(R.string.by).concat(model.getAuthor()));
-        articlesViewHolder.articleDate.setText(model.getPublishedAt());
+        articlesViewHolder.articleDate.setText(Utils.getProperDate(model.getPublishedAt()));
         articlesViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -1,5 +1,7 @@
 package com.shalan.newsfeed.details;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -13,6 +15,7 @@ import com.shalan.newsfeed.R;
 import com.shalan.newsfeed.base.BaseActivity;
 import com.shalan.newsfeed.data.AppDataManager;
 import com.shalan.newsfeed.data.api_models.news.Article;
+import com.shalan.newsfeed.utils.Utils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -60,14 +63,15 @@ public class DetailsActivity extends BaseActivity implements DetailsViewInteract
     private void setData() {
         Glide.with(this).load(this.articleModel.getUrlToImage()).into(articleImage);
         articleTitle.setText(articleModel.getTitle());
-        articleDate.setText(articleModel.getPublishedAt());
+        articleDate.setText(Utils.getProperDate(articleModel.getPublishedAt()));
         articleAuthor.setText(getString(R.string.by).concat(articleModel.getAuthor()));
         articleDescription.setText(articleModel.getDescription());
     }
 
     @OnClick(R.id.openWebsiteBtn)
     public void onOpenWebsiteClicked(){
-
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(articleModel.getUrl()));
+        startActivity(intent);
     }
 
     @Override
