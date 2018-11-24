@@ -14,6 +14,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.shalan.newsfeed.NewsFeedApplication;
 import com.shalan.newsfeed.R;
@@ -35,6 +37,10 @@ public class NewsFragment extends BaseFragment implements NewsViewInteractor{
     Toolbar appToolbar;
     @BindView(R.id.newsRecycler)
     RecyclerView newsRecycler;
+    @BindView(R.id.cautionMessage)
+    TextView cautionMessage;
+    @BindView(R.id.loader)
+    ProgressBar loader;
 
     private NewsPresenter<NewsViewInteractor> presenter;
 
@@ -70,6 +76,20 @@ public class NewsFragment extends BaseFragment implements NewsViewInteractor{
         setupToolbar();
     }
 
+    private void showCautionMessage(String message){
+        if (this.loader.getVisibility() == View.VISIBLE){
+            this.loader.setVisibility(View.GONE);
+            this.cautionMessage.setVisibility(View.VISIBLE);
+            this.cautionMessage.setText(message);
+        }
+    }
+
+    private void hideCautionMessage(){
+        if (this.loader.getVisibility() != View.VISIBLE ){
+            this.loader.setVisibility(View.VISIBLE);
+            this.cautionMessage.setVisibility(View.GONE);
+        }
+    }
     private void setupToolbar() {
         ((HomeActivity)getContext()).setSupportActionBar(appToolbar);
         ActionBar mActionBar = ((HomeActivity)getContext()).getSupportActionBar();
@@ -102,12 +122,12 @@ public class NewsFragment extends BaseFragment implements NewsViewInteractor{
 
     @Override
     protected void noConnectionAvailable() {
-
+        showCautionMessage(getString(R.string.no_connection_available_message));
     }
 
     @Override
     protected void connectionAvailable() {
-
+        hideCautionMessage();
     }
 
     public interface OnFragmentInteractionListener {

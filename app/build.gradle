@@ -11,7 +11,15 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
+        debug{
+            buildConfigField "String", "BASE_URL", '"https://newsapi.org/"'
+            buildConfigField "String", "API_KEY", '"533af958594143758318137469b41ba9"'
+            buildConfigField "String", "SOURCE", '"the-next-web"'
+        }
         release {
+            buildConfigField "String", "BASE_URL", '"https://newsapi.org/"'
+            buildConfigField "String", "API_KEY", '"533af958594143758318137469b41ba9"'
+            buildConfigField "String", "SOURCE", '"the-next-web"'
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
@@ -32,4 +40,8 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     implementation 'com.github.bumptech.glide:glide:4.8.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.4.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
+    implementation 'com.google.code.gson:gson:2.8.5'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.11.0'
 }

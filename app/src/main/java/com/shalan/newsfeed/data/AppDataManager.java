@@ -3,7 +3,10 @@ package com.shalan.newsfeed.data;
 import android.content.Context;
 
 import com.shalan.newsfeed.R;
+import com.shalan.newsfeed.data.api.ApiHelper;
+import com.shalan.newsfeed.data.api_models.news.BaseNewsResponseModel;
 import com.shalan.newsfeed.data.models.AppNavModel;
+import com.shalan.newsfeed.network.listeners.BaseResponseListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,9 +14,11 @@ import java.util.List;
 public class AppDataManager implements AppDataManagerInteractor {
 
     private Context context;
+    private ApiHelper apiHelper;
 
     public AppDataManager(Context context) {
         this.context = context;
+        apiHelper = ApiHelper.getInstance();
     }
 
     @Override
@@ -28,5 +33,10 @@ public class AppDataManager implements AppDataManagerInteractor {
             navList.add(appNavModel);
         }
         return navList;
+    }
+
+    @Override
+    public void getNews(BaseResponseListener<BaseNewsResponseModel> listener) {
+        apiHelper.getNews(listener);
     }
 }
