@@ -103,6 +103,18 @@ public class NewsFragment extends BaseFragment implements NewsViewInteractor, Ar
         this.cautionMessage.setVisibility(View.GONE);
     }
 
+    @Override
+    public void onPause() {
+        presenter = null;
+        super.onPause();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        initPresenter();
+    }
+
     private void setupToolbar() {
         ((HomeActivity) getContext()).setSupportActionBar(appToolbar);
         ActionBar mActionBar = ((HomeActivity) getContext()).getSupportActionBar();
@@ -171,9 +183,10 @@ public class NewsFragment extends BaseFragment implements NewsViewInteractor, Ar
 
     @Override
     public void onArticleClicked(int position) {
-
+        mListener.onArticleClicked(this.articlesList.get(position));
     }
 
     public interface OnFragmentInteractionListener {
+        void onArticleClicked(Article article);
     }
 }

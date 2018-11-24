@@ -11,7 +11,7 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
-        debug{
+        debug {
             buildConfigField "String", "BASE_URL", '"https://newsapi.org/"'
             buildConfigField "String", "API_KEY", '"533af958594143758318137469b41ba9"'
             buildConfigField "String", "SOURCE", '"the-next-web"'

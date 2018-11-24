@@ -1,5 +1,6 @@
 package com.shalan.newsfeed.home;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -11,6 +12,8 @@ import com.shalan.newsfeed.NewsFeedApplication;
 import com.shalan.newsfeed.R;
 import com.shalan.newsfeed.base.BaseActivity;
 import com.shalan.newsfeed.data.AppDataManager;
+import com.shalan.newsfeed.data.api_models.news.Article;
+import com.shalan.newsfeed.details.DetailsActivity;
 import com.shalan.newsfeed.home.app_nav.AppNavigationFragment;
 import com.shalan.newsfeed.home.news.NewsFragment;
 
@@ -97,5 +100,12 @@ public class HomeActivity extends BaseActivity implements HomeViewInteractor
                 super.onBackPressed();
             else
                 finish();
+    }
+
+    @Override
+    public void onArticleClicked(Article article) {
+        Intent intent = new Intent(this, DetailsActivity.class);
+        intent.putExtra(DetailsActivity.ARTICLE_KEY, article);
+        startActivity(intent);
     }
 }
