@@ -15,14 +15,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.shalan.newsfeed.NewsFeedApplication;
 import com.shalan.newsfeed.R;
+import com.shalan.newsfeed.base.BaseFragment;
+import com.shalan.newsfeed.data.AppDataManager;
 import com.shalan.newsfeed.home.HomeActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-public class NewsFragment extends Fragment {
+public class NewsFragment extends BaseFragment implements NewsViewInteractor{
 
     public static final String TAG = NewsFragment.class.getSimpleName();
 
@@ -32,6 +35,8 @@ public class NewsFragment extends Fragment {
     Toolbar appToolbar;
     @BindView(R.id.newsRecycler)
     RecyclerView newsRecycler;
+
+    private NewsPresenter<NewsViewInteractor> presenter;
 
     public NewsFragment() {
         // Required empty public constructor
@@ -61,6 +66,7 @@ public class NewsFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        initPresenter();
         setupToolbar();
     }
 
@@ -86,6 +92,22 @@ public class NewsFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    protected void initPresenter() {
+        AppDataManager dataManager = ((NewsFeedApplication)getContext()).getDataManager();
+        presenter = new NewsPresenter<NewsViewInteractor>(dataManager, this);
+    }
+
+    @Override
+    protected void noConnectionAvailable() {
+
+    }
+
+    @Override
+    protected void connectionAvailable() {
+
     }
 
     public interface OnFragmentInteractionListener {

@@ -124,6 +124,16 @@ public class AppNavigationFragment extends BaseFragment implements AppNavigation
     }
 
     @Override
+    protected void noConnectionAvailable() {
+
+    }
+
+    @Override
+    protected void connectionAvailable() {
+
+    }
+
+    @Override
     public void onClick(int position) {
         if (this.navItemsList != null) {
             this.navItemsList.get(this.lastSelectedIndex).setSelected(false);
