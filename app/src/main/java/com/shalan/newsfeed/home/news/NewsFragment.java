@@ -21,7 +21,10 @@ import com.shalan.newsfeed.NewsFeedApplication;
 import com.shalan.newsfeed.R;
 import com.shalan.newsfeed.base.BaseFragment;
 import com.shalan.newsfeed.data.AppDataManager;
+import com.shalan.newsfeed.data.api_models.news.Article;
 import com.shalan.newsfeed.home.HomeActivity;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -43,6 +46,7 @@ public class NewsFragment extends BaseFragment implements NewsViewInteractor{
     ProgressBar loader;
 
     private NewsPresenter<NewsViewInteractor> presenter;
+    private List<Article> articlesList;
 
     public NewsFragment() {
         // Required empty public constructor
@@ -77,18 +81,14 @@ public class NewsFragment extends BaseFragment implements NewsViewInteractor{
     }
 
     private void showCautionMessage(String message){
-        if (this.loader.getVisibility() == View.VISIBLE){
-            this.loader.setVisibility(View.GONE);
-            this.cautionMessage.setVisibility(View.VISIBLE);
-            this.cautionMessage.setText(message);
-        }
+        this.loader.setVisibility(View.GONE);
+        this.cautionMessage.setVisibility(View.VISIBLE);
+        this.cautionMessage.setText(message);
     }
 
     private void hideCautionMessage(){
-        if (this.loader.getVisibility() != View.VISIBLE ){
-            this.loader.setVisibility(View.VISIBLE);
-            this.cautionMessage.setVisibility(View.GONE);
-        }
+        this.loader.setVisibility(View.VISIBLE);
+        this.cautionMessage.setVisibility(View.GONE);
     }
     private void setupToolbar() {
         ((HomeActivity)getContext()).setSupportActionBar(appToolbar);
@@ -128,6 +128,23 @@ public class NewsFragment extends BaseFragment implements NewsViewInteractor{
     @Override
     protected void connectionAvailable() {
         hideCautionMessage();
+        presenter.getNewsData();
+    }
+
+    @Override
+    public void getNewsFailed(String message) {
+        showCautionMessage(message);
+    }
+
+    @Override
+    public void getNewsSuccess(List<Article> articleList) {
+        this.loader.setVisibility(View.GONE);
+        this.articlesList = articleList;
+    }
+
+    @Override
+    public void getNewsIsEmpty() {
+        showCautionMessage(getString(R.string.no_data_available));
     }
 
     public interface OnFragmentInteractionListener {
