@@ -134,11 +134,11 @@ public class AppNavigationFragment extends BaseFragment implements AppNavigation
 
             this.lastSelectedIndex = position;
 
-            this.mListener.onNavItemSelected(position);
+            this.mListener.onNavItemSelected(position, this.navItemsList.get(position).getNavTitle());
         }
     }
 
     public interface OnFragmentInteractionListener {
-        void onNavItemSelected(int position);
+        void onNavItemSelected(int position, String navTitle);
     }
 }
